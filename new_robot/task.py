@@ -11,7 +11,7 @@ import time
 
 browser = Selenium()
 
-
+# TODO Затем бот должен выбрать одно из агентств, например National Science Foundation (это должно быть настроено в файле или на Robocloud)
 
 list_name = []
 list_money = []
