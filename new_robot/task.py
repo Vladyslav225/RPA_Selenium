@@ -1,53 +1,50 @@
 """Template robot with Python."""
 
 
-# def minimal_task():
-#     print("Done.")
-
-
-# if __name__ == "__main__":
-#     minimal_task()
-
-from re import search
-from turtle import title
 from RPA.Browser.Selenium import Selenium
-# from RPA.FileSystem import FileSystem
-# from RPA.Excel.Application import Application
+
 from RPA.PDF import PDF
 
+# I use openpyxl, because library "RPA.Excel.Application" work with Windows.
+# I use Ubuntu.
 from openpyxl import Workbook
 import time
 
 browser = Selenium()
 
-# app = Application()
+
 
 list_name = []
 list_money = []
 
 
 def open_the_website(url):
-    browser.open_available_browser(url)
+    try:
+        browser.open_available_browser(url)
 
-    
-    # FileSystem().create_file("output/text.txt", text_1, overwrite=True)
-
-    #TODO Save to exel
+    except:
+        print('Check the correctness of the input URL')
 
 # Click element "DIVE IN"
 def open_list_agencies():
-    browser.click_element("class:btn.btn-default.btn-lg-2x.trend_sans_oneregular")
+    try:
+        browser.click_element("class:btn.btn-default.btn-lg-2x.trend_sans_oneregular")
+
+    except Exception as ex:
+        print(ex)
 
 #Get text name and money Agencies
 def search_block_agencies():
-    block_agency = browser.find_elements("id:agency-tiles-widget")
+    try:
+        block_agency = browser.find_elements("id:agency-tiles-widget")
 
+    except Exception as ex:
+        print(ex)
 
     for elements in block_agency:
         name_agencies = browser.find_elements('class:h4.w200', elements)
 
         money_agencies = browser.find_elements('class:h1.w900', elements)
-        # print(money_agencies)
 
         for name in name_agencies:
             text_name = browser.get_text(name)
@@ -59,9 +56,8 @@ def search_block_agencies():
 
     return list_name, list_money
 
-
-
-def save_to_xlsx():
+# Saving to Exel information about Agencies
+def save_to_xlsx(filename):
 
     wb = Workbook()
     book = wb.active
@@ -71,18 +67,16 @@ def save_to_xlsx():
     book['B1'] = 'Money companies'
 
     r = 2
-    for statN in list_name:
-        book.cell(row=r, column=1).value = statN
+    for name in list_name:
+        book.cell(row=r, column=1).value = name
         r += 1
 
     r = 2
-    for statN in list_money:
-        book.cell(row=r, column=2).value = statN
+    for money in list_money:
+        book.cell(row=r, column=2).value = money
         r += 1
 
-    print('done')
-
-    wb.save('output/file.xlsx')
+    wb.save(filename=filename)
     wb.close()
 
 
@@ -93,11 +87,9 @@ def main():
         open_the_website("https://itdashboard.gov/")
         open_list_agencies()
         time.sleep(5)
-        info = search_block_agencies()
-        # print(info)
+        search_block_agencies()
         time.sleep(5)
-        save_to_xlsx()
-        # print('done')
+        save_to_xlsx('output/file.xlsx')
         
     finally:
         browser.close_browser()
