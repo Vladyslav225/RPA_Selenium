@@ -9,22 +9,21 @@
 #     minimal_task()
 
 from re import search
+from turtle import title
 from RPA.Browser.Selenium import Selenium
 # from RPA.FileSystem import FileSystem
 # from RPA.Excel.Application import Application
 from RPA.PDF import PDF
 
-import time
 from openpyxl import Workbook
+import time
 
 browser = Selenium()
 
+# app = Application()
 
 list_name = []
 list_money = []
-
-
-# app = Application()
 
 
 def open_the_website(url):
@@ -37,54 +36,54 @@ def open_the_website(url):
 
 # Click element "DIVE IN"
 def open_list_agencies():
-    # pass
-    
     browser.click_element("class:btn.btn-default.btn-lg-2x.trend_sans_oneregular")
 
-#Search block with name and money Agencies
+#Get text name and money Agencies
 def search_block_agencies():
-    
-
-    # pass
     block_agency = browser.find_elements("id:agency-tiles-widget")
-    # print(len(block_agency))
 
 
     for elements in block_agency:
         name_agencies = browser.find_elements('class:h4.w200', elements)
-        # print(name_agencies)
 
         money_agencies = browser.find_elements('class:h1.w900', elements)
-        
+        # print(money_agencies)
+
         for name in name_agencies:
             text_name = browser.get_text(name)
-            # print(text_name)
-
             list_name.append(text_name)
 
         for money in money_agencies:
             text_money = browser.get_text(money)
-            # print(text_money)
-
             list_money.append(text_money)
 
     return list_name, list_money
 
 
 
-def save_to_xlsx(list_name_and_money):
+def save_to_xlsx():
+
     wb = Workbook()
     book = wb.active
+    book.title= 'Agencies'
+    
+    book['A1'] = 'Name companies'
+    book['B1'] = 'Money companies'
 
-    for item in list_name_and_money:
+    r = 2
+    for statN in list_name:
+        book.cell(row=r, column=1).value = statN
+        r += 1
 
-        for i in item:
+    r = 2
+    for statN in list_money:
+        book.cell(row=r, column=2).value = statN
+        r += 1
 
-            book['A1'] = i
+    print('done')
 
-            book.append([1, 2, 3])
-
-            wb.save('output/file.xlsx')
+    wb.save('output/file.xlsx')
+    wb.close()
 
 
 
@@ -94,15 +93,10 @@ def main():
         open_the_website("https://itdashboard.gov/")
         open_list_agencies()
         time.sleep(5)
-
-        list_name_and_money = search_block_agencies()
-        # print(list_name_and_money)
-
+        info = search_block_agencies()
+        # print(info)
         time.sleep(5)
-
-        # get_text_agencies(elements=list_name_and_money)
-
-        save_to_xlsx(list_name_and_money)
+        save_to_xlsx()
         # print('done')
         
     finally:
