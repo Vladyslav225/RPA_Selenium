@@ -113,15 +113,16 @@ def investments_table(filename):
     # print(type(text_table_head))
     
     # Data tables Body
-    table_body = browser.find_elements('xpath://div[@class="dataTables_scrollBody"]//tbody/tr')
+    table_body = browser.find_element('xpath://div[@class="dataTables_scrollBody"]//tbody')
 
-    for item in table_body:
-        text_table_body = browser.get_text(item)
+    body_elements = browser.find_elements('class:odd', table_body)
+    # print(body_elements)
 
-        _list = text_table_body.split()
+    for element in body_elements:
 
-        list_.append(_list)
-    # print(list_)
+        n = browser.get_text(element)
+        # print(n)
+
 
 
 
