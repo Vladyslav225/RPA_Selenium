@@ -14,7 +14,10 @@ browser = Selenium()
 # TODO Затем бот должен выбрать одно из агентств, например National Science Foundation (это должно быть настроено в файле или на Robocloud)
 
 list_name = []
-list_money = []
+list_spending = []
+list_link = []
+
+list_ = []
 
 
 def open_the_website(url):
@@ -23,6 +26,7 @@ def open_the_website(url):
 
     except:
         print('Check the correctness of the input URL')
+
 
 # Click element "DIVE IN"
 def open_list_agencies():
@@ -33,103 +37,117 @@ def open_list_agencies():
         print(ex)
 
 
-#Get text name and money Agencies
-def search_block_agencies():
+# #Get text Name, Spending Agencies
+def information_agencies():
     try:
         block_agency = browser.find_elements("id:agency-tiles-widget")
 
     except Exception as ex:
         print(ex)
 
+    # print(link)
+
     for elements in block_agency:
-        url_agencies = browser.click_link('class:btn.btn-default.btn-sm', elements)
-        print(url_agencies)
 
-        # for url in url_agencies:
-        #     text_url = browser.get_text(url)
-        #     print(text_url)
-            # list_name.append(text_url)
+    # Name
+        # name_agencies = browser.find_elements('class:h4.w200', elements)
+        # for name in name_agencies:
+        #     text_name = browser.get_text(name)
+        #     list_name.append(text_name)
 
+    # Spending
+        # spending_agencies = browser.find_elements('class:h1.w900', elements)
+        # for money in spending_agencies:
+        #     text_spending = browser.get_text(money)
+        #     list_spending.append(text_spending)
 
-    #     name_agencies = browser.find_elements('class:h4.w200', elements)
+    # URL
+        list_link.append(browser.find_elements('class:btn.btn-default.btn-sm', elements))            
 
-    #     money_agencies = browser.find_elements('class:h1.w900', elements)
-
-    #     for name in name_agencies:
-    #         text_name = browser.get_text(name)
-    #         list_name.append(text_name)
-
-    #     for money in money_agencies:
-    #         text_money = browser.get_text(money)
-    #         list_money.append(text_money)
-
-    # return list_name, list_money
 
 # Saving to Exel information about Agencies
 # def save_to_xlsx(filename):
 
-#     wb = Workbook()
-#     book = wb.active
-#     book.title= 'Agencies'
+    # wb = Workbook()
+    # book = wb.active
+    # book.title = 'Agencies'
     
-#     book['A1'] = 'Name companies'
-#     book['B1'] = 'Money companies'
+    # book['A1'] = 'Name Agencies'
+    # book['B1'] = 'Spending Agencies'
 
-#     r = 2
-#     for name in list_name:
-#         book.cell(row=r, column=1).value = name
-#         r += 1
+    # r = 2
+    # for name in list_name:
+    #     book.cell(row=r, column=1).value = name
+    #     r += 1
 
-#     r = 2
-#     for money in list_money:
-#         book.cell(row=r, column=2).value = money
-#         r += 1
+    # r = 2
+    # for money in list_spending:
+    #     book.cell(row=r, column=2).value = money
+    #     r += 1
 
-#     wb.save(filename=filename)
-#     wb.close()
+    # wb.save(filename=filename)
+    # wb.close()
 
 
-# def url_agencies():
-#     url = 
+# Go to the page of one of the agencies
+def go_to_agency():
     
+    browser.click_element(list_link[0][24])
 
-def check_agensy(url):
-    pass
-    # url_agency = url + "/drupal/summary/005"
-    # browser.open_available_browser(url + "drupal/summary/005")
-    # time.sleep(3)
 
-    # element = browser.find_element('class:h1.w200.martop-0.marbottom-0')
-
-    # b = browser.get_text(element)
+# Get investments table
+def investments_table(filename):
+    # n = browser.find_element('class:h1.w200.martop-0.marbottom-0')
+    # b = browser.get_text(n)
     # print(b)
 
-    # print('done')
+    # Form control (All)
+    browser.click_element('xpath://select[@class="form-control c-select"]/option[@value="-1"]')
+    time.sleep(10)
+
+    # Data table Head
+    # table_head = browser.find_elements('xpath://div[@class="dataTables_wrapper no-footer"]//div[@class="dataTables_scrollHead"]')
+    # text_table_head = browser.get_text(table_head)
+    # split_ = text_table_head.split()
+    # print(split_)
+    # print(type(text_table_head))
+    
+    # Data tables Body
+    table_body = browser.find_elements('xpath://div[@class="dataTables_scrollBody"]//tbody/tr')
+
+    for item in table_body:
+        text_table_body = browser.get_text(item)
+
+        _list = text_table_body.split()
+
+        list_.append(_list)
+    # print(list_)
 
 
-
-
-# def check_agensy(url):
-#     agency = url + 'National Science Foundation'
-#     time.sleep(5)
-#     # {'agency'} = browser.find_element('value: National Science Foundation')
-#     # print(n)
-#     print('done')
 
 
 
 def main():
     try:
         open_the_website("https://itdashboard.gov/")
+        browser.set_browser_implicit_wait(10)
+
         open_list_agencies()
-        time.sleep(5)
-        search_block_agencies()
-        time.sleep(5)
+        browser.set_browser_implicit_wait(10)
+
+        information_agencies()
+        browser.set_browser_implicit_wait(10)
+        
         # save_to_xlsx('output/file.xlsx')
+        # browser.set_browser_implicit_wait(10)
 
-        # url_agencies()
+        go_to_agency()
+        browser.set_browser_implicit_wait(10)
 
-        check_agensy("https://itdashboard.gov/")
+        investments_table('output/file.xlsx')
+        browser.set_browser_implicit_wait(10)
+
+        print('done')
         
     finally:
         browser.close_browser()
