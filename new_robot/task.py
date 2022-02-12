@@ -115,16 +115,56 @@ def investments_table(filename):
     # Data tables Body
     table_body = browser.find_element('xpath://div[@class="dataTables_scrollBody"]//tbody')
 
-    body_elements = browser.find_elements('class:odd', table_body)
+    # Elements 'class:odd'
+    table_odd_elements = browser.find_elements('class:odd', table_body)
     # print(body_elements)
 
-    for element in body_elements:
+    # Get link in UII
+    tag_a = browser.find_elements('tag:a', table_body)
+    # print(tag_a)
 
-        n = browser.get_text(element)
-        # print(n)
+    # UII elements
+    for id in table_odd_elements:
+        element_id = browser.find_elements('class:left.sorting_2', id)
+
+        for text_id in element_id:
+            get_text_id = browser.get_text(text_id)
+            print(get_text_id)
+
+    # Bureau
+    for bureau in table_odd_elements:
+        element_bureau = browser.find_elements('class:left.select-filter', bureau)
+
+        for text_bureau in element_bureau:
+            get_text_bureau = browser.get_text(text_bureau)
+            print(get_text_bureau)
 
 
+    # Investment Title
+    for investment_title in table_odd_elements:
+        element_investment_title = browser.find_elements('class:left', investment_title)
 
+        for text_investment_title in element_investment_title:
+            get_text_investment_title = browser.get_text(text_investment_title)
+            print(get_text_investment_title)
+
+
+    # Total FY2021 Spending ($M)
+    for total_spending in table_odd_elements:
+        element_total_spending = browser.find_elements('class:right', total_spending)
+
+        for text_total_spending in element_total_spending:
+            get_text_total_spending = browser.get_text(text_total_spending)
+            print(get_text_total_spending)
+
+
+    # Type
+    for type_ in table_odd_elements:
+        element_type = browser.find_elements('class:left.select-filter',type_)
+
+        for text_type in element_type:
+            get_text_type = browser.get_text(text_type)
+            print(get_text_type)
 
 
 
