@@ -11,13 +11,15 @@ import time
 
 browser = Selenium()
 
-# TODO Затем бот должен выбрать одно из агентств, например National Science Foundation (это должно быть настроено в файле или на Robocloud)
 
-list_name = []
-list_spending = []
-list_link = []
+# Basic page
+list_name_agency = []
+list_spending_agency = []
+list_link_agency = []
 
-list_ = []
+
+# Page one of the agencies
+
 
 
 def open_the_website(url):
@@ -49,20 +51,20 @@ def information_agencies():
 
     for elements in block_agency:
 
-    # Name
-        # name_agencies = browser.find_elements('class:h4.w200', elements)
-        # for name in name_agencies:
-        #     text_name = browser.get_text(name)
-        #     list_name.append(text_name)
+    # Name Agency
+        name_agencies = browser.find_elements('class:h4.w200', elements)
+        for name in name_agencies:
+            text_name = browser.get_text(name)
+            list_name_agency.append(text_name)
 
-    # Spending
-        # spending_agencies = browser.find_elements('class:h1.w900', elements)
-        # for money in spending_agencies:
-        #     text_spending = browser.get_text(money)
-        #     list_spending.append(text_spending)
+    # Spending Agency
+        spending_agencies = browser.find_elements('class:h1.w900', elements)
+        for money in spending_agencies:
+            text_spending = browser.get_text(money)
+            list_spending_agency.append(text_spending)
 
-    # URL
-        list_link.append(browser.find_elements('class:btn.btn-default.btn-sm', elements))            
+    # URL Agency
+        list_link_agency.append(browser.find_elements('class:btn.btn-default.btn-sm', elements))            
 
 
 # Saving to Exel information about Agencies
@@ -76,12 +78,12 @@ def information_agencies():
     # book['B1'] = 'Spending Agencies'
 
     # r = 2
-    # for name in list_name:
+    # for name in list_name_agency:
     #     book.cell(row=r, column=1).value = name
     #     r += 1
 
     # r = 2
-    # for money in list_spending:
+    # for money in list_spending_agency:
     #     book.cell(row=r, column=2).value = money
     #     r += 1
 
@@ -92,11 +94,11 @@ def information_agencies():
 # Go to the page of one of the agencies
 def go_to_agency():
     
-    browser.click_element(list_link[0][24])
+    browser.click_element(list_link_agency[0][24])
 
 
 # Get investments table
-def investments_table(filename):
+def investments_table():
     # n = browser.find_element('class:h1.w200.martop-0.marbottom-0')
     # b = browser.get_text(n)
     # print(b)
@@ -106,25 +108,26 @@ def investments_table(filename):
     time.sleep(10)
 
     # Data table Head
-    # table_head = browser.find_elements('xpath://div[@class="dataTables_wrapper no-footer"]//div[@class="dataTables_scrollHead"]')
-    # text_table_head = browser.get_text(table_head)
-    # split_ = text_table_head.split()
-    # print(split_)
-    # print(type(text_table_head))
+    # table_head = 
+    # text_table_head = 
     
     # Data tables Body
     table_body = browser.find_element('xpath://div[@class="dataTables_scrollBody"]//tbody')
 
     # Elements 'class:odd'
-    table_odd_elements = browser.find_elements('class:odd', table_body)
+    class_odd_elements = browser.find_elements('class:odd', table_body)
     # print(body_elements)
+
+    # Elements 'class:even'
+    class_even_elements = browser.find_elements('class:even', table_body)
+
 
     # Get link in UII
     tag_a = browser.find_elements('tag:a', table_body)
     # print(tag_a)
 
     # UII elements
-    for id in table_odd_elements:
+    for id in class_odd_elements:
         element_id = browser.find_elements('class:left.sorting_2', id)
 
         for text_id in element_id:
@@ -132,7 +135,7 @@ def investments_table(filename):
             print(get_text_id)
 
     # Bureau
-    for bureau in table_odd_elements:
+    for bureau in class_odd_elements:
         element_bureau = browser.find_elements('class:left.select-filter', bureau)
 
         for text_bureau in element_bureau:
@@ -141,7 +144,7 @@ def investments_table(filename):
 
 
     # Investment Title
-    for investment_title in table_odd_elements:
+    for investment_title in class_odd_elements:
         element_investment_title = browser.find_elements('class:left', investment_title)
 
         for text_investment_title in element_investment_title:
@@ -150,7 +153,7 @@ def investments_table(filename):
 
 
     # Total FY2021 Spending ($M)
-    for total_spending in table_odd_elements:
+    for total_spending in class_odd_elements:
         element_total_spending = browser.find_elements('class:right', total_spending)
 
         for text_total_spending in element_total_spending:
@@ -159,12 +162,30 @@ def investments_table(filename):
 
 
     # Type
-    for type_ in table_odd_elements:
+    for type_ in class_odd_elements:
         element_type = browser.find_elements('class:left.select-filter',type_)
 
         for text_type in element_type:
             get_text_type = browser.get_text(text_type)
             print(get_text_type)
+
+
+    # CIO Rating and Projects
+    for rating_and_project in class_odd_elements:
+
+        # CIO Rating
+        element_rating = browser.find_elements('class:center', rating_and_project)[0]
+
+        get_text_rating = browser.get_text(element_rating)
+        print(get_text_rating)
+
+        print('------------------------------------------')
+
+        # Projects
+        element_projects = browser.find_elements('class:center', rating_and_project)[1]
+
+        get_text_projects = browser.get_text(element_projects)
+        print(get_text_projects)
 
 
 
@@ -185,7 +206,7 @@ def main():
         go_to_agency()
         browser.set_browser_implicit_wait(10)
 
-        investments_table('output/file.xlsx')
+        investments_table()
         browser.set_browser_implicit_wait(10)
 
         print('done')
