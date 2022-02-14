@@ -37,11 +37,6 @@ list_project_odd = []
 # list_class_even = []
 
 
-
-
-
-
-
 def open_the_website(url):
     try:
         browser.open_available_browser(url)
@@ -85,30 +80,6 @@ def information_agencies():
         list_link_agency.append(browser.find_elements('class:btn.btn-default.btn-sm', elements))            
 
 
-# Saving to Exel information about Agencies
-# def save_to_xlsx(filename):
-
-#     wb = Workbook()
-#     book = wb.active
-#     book.title = 'Agencies'
-    
-#     book['A1'] = 'Name Agencies'
-#     book['B1'] = 'Spending Agencies'
-
-#     r = 2
-#     for name in list_name_agency:
-#         book.cell(row=r, column=1).value = name
-#         r += 1
-
-#     r = 2
-#     for money in list_spending_agency:
-#         book.cell(row=r, column=2).value = money
-#         r += 1
-
-#     wb.save(filename=filename)
-#     wb.close()
-
-
 # Go to the page of one of the agencies
 def go_to_agency():
     
@@ -143,6 +114,13 @@ def table_body():
 
 # Elements 'class:odd'
 def class_odd(odd):
+    # list_uii_odd = []
+    # list_bureau_odd = []
+    # list_investment_title_odd = []
+    # list_total_spending_odd = []
+    # list_type_odd = []
+    # list_rating_odd = []
+    # list_project_odd = []
 
     class_odd_elements = browser.find_elements('class:odd', odd)
 
@@ -209,63 +187,56 @@ def class_odd(odd):
 
 # Elements 'class:even'
 def class_even(even):
-    # pass
-    list_uii_even = []
-    list_bureau_even = []
-    list_investment_title_even = []
-    list_total_spending_even = []
-    list_type_even = []
-    list_rating_even = []
-    list_project_even = []
+    pass
 
-    class_even_elements = browser.find_elements('class:even', even)
+    # class_even_elements = browser.find_elements('class:even', even)
 
-    # Elements with general class "left..."
-    for class_left in class_even_elements:
+    # # Elements with general class "left..."
+    # for class_left in class_even_elements:
 
-        # UII elements
-        element_uii = browser.find_elements('class:left', class_left)[0]
+    #     # UII elements
+    #     element_uii = browser.find_elements('class:left', class_left)[0]
 
-        get_text_uii = browser.get_text(element_uii)
-        list_uii_even.append(get_text_uii)
+    #     get_text_uii = browser.get_text(element_uii)
+    #     list_uii_even.append(get_text_uii)
 
-        # Bureau and Type
-        element_bureau = browser.find_elements('class:left', class_left)[1]
-        get_text_bureau = browser.get_text(element_bureau)
-        list_bureau_even.append(get_text_bureau)
+    #     # Bureau and Type
+    #     element_bureau = browser.find_elements('class:left', class_left)[1]
+    #     get_text_bureau = browser.get_text(element_bureau)
+    #     list_bureau_even.append(get_text_bureau)
 
-        # Investment Title
-        element_investment_title = browser.find_elements('class:left', class_left)[2]
-        get_text_investment_title = browser.get_text(element_investment_title)
-        list_investment_title_even.append(get_text_investment_title)
+    #     # Investment Title
+    #     element_investment_title = browser.find_elements('class:left', class_left)[2]
+    #     get_text_investment_title = browser.get_text(element_investment_title)
+    #     list_investment_title_even.append(get_text_investment_title)
 
-        # Type
-        element_type = browser.find_elements('class:left', class_left)[3]
-        get_text_type = browser.get_text(element_type)
-        list_total_spending_even.append(get_text_type)
+    #     # Type
+    #     element_type = browser.find_elements('class:left', class_left)[3]
+    #     get_text_type = browser.get_text(element_type)
+    #     list_total_spending_even.append(get_text_type)
 
-    # Total FY2021 Spending ($M)
-    for total_spending in class_even_elements:
-        element_total_spending = browser.find_elements('class:right', total_spending)
+    # # Total FY2021 Spending ($M)
+    # for total_spending in class_even_elements:
+    #     element_total_spending = browser.find_elements('class:right', total_spending)
 
-        for text_total_spending in element_total_spending:
-            get_text_total_spending = browser.get_text(text_total_spending)
-            list_type_even.append(get_text_total_spending)
+    #     for text_total_spending in element_total_spending:
+    #         get_text_total_spending = browser.get_text(text_total_spending)
+    #         list_type_even.append(get_text_total_spending)
 
-    # CIO Rating and Projects
-    for rating_and_project in class_even_elements:
+    # # CIO Rating and Projects
+    # for rating_and_project in class_even_elements:
 
-        # CIO Rating
-        element_rating = browser.find_elements('class:center', rating_and_project)[0]
+    #     # CIO Rating
+    #     element_rating = browser.find_elements('class:center', rating_and_project)[0]
 
-        get_text_rating = browser.get_text(element_rating)
-        list_rating_even.append(get_text_rating)
+    #     get_text_rating = browser.get_text(element_rating)
+    #     list_rating_even.append(get_text_rating)
 
-        # Projects
-        element_projects = browser.find_elements('class:center', rating_and_project)[1]
+    #     # Projects
+    #     element_projects = browser.find_elements('class:center', rating_and_project)[1]
 
-        get_text_projects = browser.get_text(element_projects)
-        list_project_even.append(get_text_projects)
+    #     get_text_projects = browser.get_text(element_projects)
+    #     list_project_even.append(get_text_projects)
 
     # list_class_even = (
     #     list_uii_even,
@@ -295,6 +266,7 @@ def save_table_to_xlsx(FILENAME):
     for money in list_spending_agency:
         sheet_1.cell(row=r, column=2).value = money
         r += 1
+    
 
     sheet_2 = wb.create_sheet(index=1, title='Individual Investments')
 
