@@ -1,7 +1,6 @@
 """Template robot with Python."""
 
 
-from turtle import title
 from RPA.Browser.Selenium import Selenium
 from RPA.PDF import PDF
 
@@ -24,7 +23,7 @@ name_spending_agency = []
 
 
 
-# Open Wev Site
+# Open the start page of the web-site
 def open_website(url):
     try:
         browser.open_available_browser(url)
@@ -33,7 +32,7 @@ def open_website(url):
         print(ex)
 
 
-# Open all agency
+# Open all agency, click element 'DIVE IN'
 def open_agency():
     try:
         browser.click_element('class:btn.btn-default.btn-lg-2x.trend_sans_oneregular')
@@ -51,11 +50,10 @@ def general_block_agencies():
         print(ex)
 
 
-# Name, Spending URL Agencies
+# Name and Spending Agencies
 def informatin_agencies(get_text):
     name_agency = []
     spending_agency = []
-    url_agency = []
 
     # Name Agencies
     try:
@@ -75,12 +73,6 @@ def informatin_agencies(get_text):
     for text_spending in element_spending_agency:
         spending_agency.append(browser.get_text(text_spending))
 
-    # URL Agencies
-    try:
-        url_agency.append(browser.find_elements('class:btn.btn-default.btn-sm'))
-    except Exception as ex:
-        print(ex)
-
     name_spending_agency.append(
         {
             'Name Agency':name_agency,
@@ -91,7 +83,7 @@ def informatin_agencies(get_text):
     print('DONE, informatin_agencies')
 
 
-# Select Agency
+# Select one Agency
 def open_page_agency(url_agencies):
     name_agency = 'National Science Foundation'
 
@@ -102,13 +94,14 @@ def open_page_agency(url_agencies):
             get_element(name_agency, url_agencies)
 
         else:
-            print('Check name agency')
-            break
+            print('Check the name or spelling of the agency')
+            browser.close_browser()
+            exit()
 
     print('DONE, open_page_agency')
 
 
-# Table Agency
+# Block with all elements Agency
 def block_table_agency():
     try:
         return browser.find_element('id:investments-table-object_wrapper')
@@ -118,7 +111,7 @@ def block_table_agency():
 
 
 # Form control (All)
-def show_entery(select_all):
+def show_entery():
     try:
         browser.click_element('xpath://select[@class="form-control c-select"]/option[4]')
 
@@ -129,26 +122,34 @@ def show_entery(select_all):
 
 def main():
     try:
+
+    # Open the start page of the web-site
         open_website("https://itdashboard.gov/")
         browser.set_browser_implicit_wait(10)
 
+    # Open all agency, click element 'DIVE IN'
         open_agency()
         browser.set_browser_implicit_wait(10)
         time.sleep(5)
 
+    # General block Name and Spending Agencies
         block_agencies = general_block_agencies()
         browser.set_browser_implicit_wait(10)
 
+    # Name and Spending Agencies
         informatin_agencies(get_text=block_agencies)
         browser.set_browser_implicit_wait(10)
 
+    # Select one Agency
         open_page_agency(url_agencies=block_agencies)
         browser.set_browser_implicit_wait(10)
 
+    # Block with all elements Agency
         block_agency = block_table_agency()
         browser.set_browser_implicit_wait(10)
 
-        show_entery(select_all=block_agency)
+    # Form control (All)
+        show_entery()
         time.sleep(7)
 
         

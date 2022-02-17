@@ -1,3 +1,6 @@
+# Function module 'open_page_agency' for going to the agency page
+
+
 from RPA.Browser.Selenium import Selenium
 
 browser = Selenium()
