@@ -13,6 +13,7 @@ import time
 
 # app
 from app.finder_agency import get_element
+from app.table_element import odd
 
 browser = Selenium()
 
@@ -91,6 +92,8 @@ def open_page_agency(url_agencies):
         find_element = element['Name Agency']
 
         if name_agency in find_element:
+
+        # Function module for going to the agency page
             get_element(name_agency, url_agencies)
 
         else:
@@ -102,7 +105,7 @@ def open_page_agency(url_agencies):
 
 
 # Block with all elements Agency
-def block_table_agency():
+def block_data_table_agency():
     try:
         return browser.find_element('id:investments-table-object_wrapper')
 
@@ -119,6 +122,31 @@ def show_entery():
         print(ex)
 
     print('DONE, table_afgency')
+
+
+# Getting block body table elements
+def block_body_table(body_table):
+    try:
+        browser.find_element('xpath://div[@class="dataTables_scrollBody"]/table/tbody', body_table)
+        
+    except Exception as ex:
+        print(ex)
+
+    print('DONE, block_body_table')
+
+
+# Getting table body text
+def elements_table_body():
+    try:
+        all_elements = browser.find_elements('xpath://tr')
+
+    except Exception as ex:
+        print(ex)
+
+
+    # Elements with class - odd
+    odd(all_elements)
+    
 
 def main():
     try:
@@ -145,14 +173,18 @@ def main():
         browser.set_browser_implicit_wait(10)
 
     # Block with all elements Agency
-        block_agency = block_table_agency()
+        block_table_agency = block_data_table_agency()
         browser.set_browser_implicit_wait(10)
 
     # Form control (All)
         show_entery()
-        time.sleep(7)
+        time.sleep(10)
 
-        
+    # Getting block body table elements
+        block_body_table(body_table=block_table_agency)
+
+    # Getting table body text
+        elements_table_body()
 
         print('done')
         
