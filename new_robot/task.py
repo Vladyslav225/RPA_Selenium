@@ -143,13 +143,13 @@ def block_body_table(body_table):
 
 # Getting table body text
 def elements_table_body(elements):
-    # list_uii = []
-    # list_bureau = []
-    # list_investment = []
-    # list_spending = []
-    # list_type = []
-    # list_rating = []
-    # list_projects = []
+    list_uii = []
+    list_bureau = []
+    list_investment = []
+    list_spending = []
+    list_type = []
+    list_rating = []
+    list_projects = []
 
 
     # UII
@@ -168,89 +168,89 @@ def elements_table_body(elements):
 
             list_url_table.append(item)
 
-    # for text_uii in uii_elements:
-    #     list_uii.append(browser.get_text(text_uii))
+    for text_uii in uii_elements:
+        list_uii.append(browser.get_text(text_uii))
 
 
-    # # Bureau
-    # try:
-    #     bureau_elements = browser.find_elements('xpath://tr/td[2][@class=" left select-filter"]', elements)
+    # Bureau
+    try:
+        bureau_elements = browser.find_elements('xpath://tr/td[2][@class=" left select-filter"]', elements)
 
-    # except Exception as ex:
-    #     print(ex)
+    except Exception as ex:
+        print(ex)
 
-    # for text_bureau in bureau_elements:
-    #     list_bureau.append(browser.get_text(text_bureau))
-
-
-    # # Investment Title
-    # try:
-    #     investment_elements = browser.find_elements('xpath://tr/td[3][@class=" left"]', elements)
-
-    # except Exception as ex:
-    #     print(ex)
-
-    # for text_investment in investment_elements:
-    #     list_investment.append(browser.get_text(text_investment))
+    for text_bureau in bureau_elements:
+        list_bureau.append(browser.get_text(text_bureau))
 
 
-    # # Total Spending
-    # try:
-    #     spending_elements = browser.find_elements('xpath://tr/td[4][@class=" right"]', elements)
+    # Investment Title
+    try:
+        investment_elements = browser.find_elements('xpath://tr/td[3][@class=" left"]', elements)
 
-    # except Exception as ex:
-    #     print(ex)
+    except Exception as ex:
+        print(ex)
 
-    # for text_spending in spending_elements:
-    #     list_spending.append(browser.get_text(text_spending))
-
-
-    # # Type
-    # try:
-    #     type_elements = browser.find_elements('xpath://tr/td[5][@class=" left select-filter"]', elements)
-
-    # except Exception as ex:
-    #     print(ex)
-
-    # for text_type in type_elements:
-    #     list_type.append(browser.get_text(text_type))
+    for text_investment in investment_elements:
+        list_investment.append(browser.get_text(text_investment))
 
 
-    # # CIO Rating
-    # try:
-    #     rating_elements = browser.find_elements('xpath://tr/td[6][@class=" center"]', elements)
+    # Total Spending
+    try:
+        spending_elements = browser.find_elements('xpath://tr/td[4][@class=" right"]', elements)
 
-    # except Exception as ex:
-    #     print(ex)
+    except Exception as ex:
+        print(ex)
 
-    # for text_rating in rating_elements:
-    #     list_rating.append(browser.get_text(text_rating))
+    for text_spending in spending_elements:
+        list_spending.append(browser.get_text(text_spending))
+
+
+    # Type
+    try:
+        type_elements = browser.find_elements('xpath://tr/td[5][@class=" left select-filter"]', elements)
+
+    except Exception as ex:
+        print(ex)
+
+    for text_type in type_elements:
+        list_type.append(browser.get_text(text_type))
+
+
+    # CIO Rating
+    try:
+        rating_elements = browser.find_elements('xpath://tr/td[6][@class=" center"]', elements)
+
+    except Exception as ex:
+        print(ex)
+
+    for text_rating in rating_elements:
+        list_rating.append(browser.get_text(text_rating))
 
     
-    # # Projects
-    # try:
-    #     projects_elements = browser.find_elements('xpath://tr/td[7][@class=" center"]', elements)
+    # Projects
+    try:
+        projects_elements = browser.find_elements('xpath://tr/td[7][@class=" center"]', elements)
 
-    # except Exception as ex:
-    #     print(ex)
+    except Exception as ex:
+        print(ex)
 
-    # for text_projects in projects_elements:
-    #     list_projects.append(browser.get_text(text_projects))
+    for text_projects in projects_elements:
+        list_projects.append(browser.get_text(text_projects))
 
 
-    # list_text_table.append(
-    #     {
-    #         'UII': list_uii,
-    #         'Bureau': list_bureau,
-    #         'Investment Title': list_investment,
-    #         'Total Spending': list_spending,
-    #         'Type': list_type,
-    #         'CIO Rating': list_rating,
-    #         'Projects': list_projects
-    #     }
-    # )
+    list_text_table.append(
+        {
+            'UII': list_uii,
+            'Bureau': list_bureau,
+            'Investment Title': list_investment,
+            'Total Spending': list_spending,
+            'Type': list_type,
+            'CIO Rating': list_rating,
+            'Projects': list_projects
+        }
+    )
 
-    # return list_text_table
+    return list_text_table
 
 
 # Open pages from table
